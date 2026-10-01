@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del perro — Huellas a Casa</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/adoptar">Adoptar</a></li>
+            <li><a href="/reportar">Reportar</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+            <li><a href="/organizaciones">Organizaciones</a></li>
+        </ul>
+        <div class="nav-auth" id="navAuth">
+            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/registro" class="btn btn-primary">Registrarse</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
+    </div>
+</nav>
+
+<main class="detail-section">
+    <a href="/adoptar" class="back-link">← Volver al catálogo</a>
+
+    <div class="detail-container" id="perroDetalle">
+        <!-- Se carga dinámicamente -->
+        <div class="skeleton-detail"></div>
+    </div>
+</main>
+
+<!-- MODAL DE SOLICITUD -->
+<div class="modal-overlay hidden" id="modalSolicitud">
+    <div class="modal">
+        <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+        <h2>Solicitar adopción</h2>
+        <p id="modalPerroNombre" class="modal-subtitle"></p>
+
+        <form id="formSolicitud">
+            <div class="form-group">
+                <label for="mensajeSolicitud">¿Por qué quieres adoptar a este perrito? (opcional)</label>
+                <textarea id="mensajeSolicitud" name="mensaje" rows="4"
+                    placeholder="Cuéntanos sobre tu hogar, estilo de vida y por qué serías un buen adoptante..."></textarea>
+            </div>
+            <div id="solicitudMsg" class="form-msg hidden"></div>
+            <button type="submit" class="btn btn-primary btn-full">Enviar solicitud</button>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas a Casa</span>
+            <p>San Pedro de las Colonias, Coahuila</p>
+        </div>
+        <div class="footer-links">
+            <a href="/adoptar">Adoptar</a>
+            <a href="/reportar">Reportar</a>
+            <a href="/contacto">Contacto</a>
+        </div>
+        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/perro.js"></script>
+</body>
+</html>

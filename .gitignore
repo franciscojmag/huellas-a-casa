@@ -1,0 +1,20 @@
+# Dependencias de Node.js (se instalan con npm install)
+node_modules/
+
+# Base de datos local (se genera automáticamente al arrancar)
+database/huellas.db
+
+# Fotos subidas por usuarios
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Variables de entorno
+.env
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellas a Casa — Adopción y rescate canino</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/adoptar">Adoptar</a></li>
+            <li><a href="/reportar">Reportar</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+            <li><a href="/organizaciones">Organizaciones</a></li>
+        </ul>
+        <div class="nav-auth" id="navAuth">
+            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/registro" class="btn btn-primary">Registrarse</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <span class="hero-badge">📍 Plataforma activa en San Pedro de las Colonias</span>
+        <h1 class="hero-title">
+            Dale a un perrito<br>
+            un <span class="accent">hogar de verdad</span>
+        </h1>
+        <p class="hero-desc">
+            Conectamos a organizaciones de rescate con ciudadanos responsables
+            para agilizar adopciones y atender reportes de perros en situación de calle.
+        </p>
+        <div class="hero-actions">
+            <a href="/adoptar" class="btn btn-primary btn-lg">Ver perros disponibles</a>
+            <a href="/reportar" class="btn btn-secondary btn-lg">Reportar un caso</a>
+        </div>
+        <div class="hero-stats" id="heroStats">
+            <div class="stat">
+                <span class="stat-num" id="statRescatados">—</span>
+                <span class="stat-label">Perros rescatados</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num" id="statAdoptados">—</span>
+                <span class="stat-label">Adopciones concretadas</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num" id="statOrgs">—</span>
+                <span class="stat-label">Organizaciones afiliadas</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-image">
+        <div class="hero-img-card">
+            <img src="/img/hero-dog.jpg" alt="Cachorro disponible para adopción"
+                 onerror="this.src='/img/dog-placeholder.svg'">
+            <span class="hero-img-badge">🟢 Luna · Disponible para adopción</span>
+        </div>
+    </div>
+</section>
+
+<!-- PERROS DESTACADOS -->
+<section class="section">
+    <div class="section-header">
+        <span class="section-tag">🐾 ADOPCIÓN</span>
+        <h2>Mascotas esperando un hogar</h2>
+        <p>Cada perrito aquí tiene una historia. Encuentra a tu compañero ideal.</p>
+    </div>
+    <div class="card-grid" id="perrosDestacados">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+    </div>
+    <div class="section-footer">
+        <a href="/adoptar" class="btn btn-outline">Ver todos los perros</a>
+    </div>
+</section>
+
+<!-- CTA REPORTE -->
+<section class="cta-section">
+    <div class="cta-content">
+        <h2>¿Viste un perro en situación de calle?</h2>
+        <p>Con tu reporte, las organizaciones afiliadas pueden actuar rápidamente y brindarle atención.</p>
+        <a href="/reportar" class="btn btn-primary btn-lg">Reportar un caso ahora</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas a Casa</span>
+            <p>San Pedro de las Colonias, Coahuila</p>
+        </div>
+        <div class="footer-links">
+            <a href="/adoptar">Adoptar</a>
+            <a href="/reportar">Reportar</a>
+            <a href="/contacto">Contacto</a>
+            <a href="/registro">Registrarse</a>
+        </div>
+        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>

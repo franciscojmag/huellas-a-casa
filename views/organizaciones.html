@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizaciones — Huellas a Casa</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .orgs-section {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem 4rem;
+        }
+        .org-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .org-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .org-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        .org-logo {
+            width: 64px;
+            height: 64px;
+            background: var(--teal-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        .org-name { font-size: 1.15rem; font-weight: 700; margin-bottom: .35rem; }
+        .org-desc { color: var(--gray-500); font-size: .88rem; line-height: 1.6; margin-bottom: 1rem; }
+        .org-meta { font-size: .82rem; color: var(--gray-500); }
+        .org-meta p { margin-bottom: .25rem; }
+        .org-perros {
+            display: inline-block;
+            background: var(--teal-light);
+            color: var(--teal);
+            font-size: .75rem;
+            font-weight: 700;
+            padding: .2rem .65rem;
+            border-radius: 999px;
+            margin-top: .75rem;
+        }
+        .skeleton-org {
+            height: 220px;
+            border-radius: var(--radius);
+            background: linear-gradient(90deg, var(--gray-100) 25%, #e2e8f0 50%, var(--gray-100) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.4s infinite;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/adoptar">Adoptar</a></li>
+            <li><a href="/reportar">Reportar</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+            <li><a href="/organizaciones" class="active">Organizaciones</a></li>
+        </ul>
+        <div class="nav-auth" id="navAuth">
+            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/registro" class="btn btn-primary">Registrarse</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
+    </div>
+</nav>
+
+<div class="page-header">
+    <span class="section-tag">🏠 ORGANIZACIONES</span>
+    <h1>Organizaciones afiliadas</h1>
+    <p>Estas organizaciones trabajan diariamente por el bienestar de los perros en San Pedro de las Colonias.</p>
+</div>
+
+<main class="orgs-section">
+    <div class="org-grid" id="orgGrid">
+        <div class="skeleton-org"></div>
+        <div class="skeleton-org"></div>
+    </div>
+</main>
+
+<!-- CTA para que se registren nuevas orgs -->
+<section class="cta-section">
+    <div class="cta-content">
+        <h2>¿Diriges una organización de rescate?</h2>
+        <p>Únete a Huellas a Casa y gestiona tus adopciones y reportes desde un solo lugar.</p>
+        <a href="/registro" class="btn btn-primary btn-lg">Registrar mi organización</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas a Casa</span>
+            <p>San Pedro de las Colonias, Coahuila</p>
+        </div>
+        <div class="footer-links">
+            <a href="/adoptar">Adoptar</a>
+            <a href="/reportar">Reportar</a>
+            <a href="/contacto">Contacto</a>
+            <a href="/organizaciones">Organizaciones</a>
+        </div>
+        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/organizaciones.js"></script>
+</body>
+</html>

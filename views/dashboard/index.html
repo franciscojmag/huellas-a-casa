@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de organización — Huellas a Casa</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <span class="logo-icon">🐾</span>
+        <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/dashboard" class="sidebar-link active">
+            <span>📊</span> Resumen
+        </a>
+        <a href="/dashboard/perros" class="sidebar-link">
+            <span>🐕</span> Mis perros
+        </a>
+        <a href="/dashboard/solicitudes" class="sidebar-link">
+            <span>📋</span> Solicitudes
+        </a>
+        <a href="/dashboard/reportes" class="sidebar-link">
+            <span>📍</span> Reportes
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="/" class="sidebar-link">← Ver sitio</a>
+        <button class="sidebar-link btn-logout" id="btnLogout">Cerrar sesión</button>
+    </div>
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="dashboard-main">
+    <header class="dash-header">
+        <h1>Resumen general</h1>
+        <p id="dashOrgNombre" class="dash-org-name"></p>
+    </header>
+
+    <div class="dash-stats">
+        <div class="dash-stat-card">
+            <span class="dash-stat-icon">🐕</span>
+            <div>
+                <span class="dash-stat-num" id="totalPerros">—</span>
+                <span class="dash-stat-label">Perros registrados</span>
+            </div>
+        </div>
+        <div class="dash-stat-card">
+            <span class="dash-stat-icon">✅</span>
+            <div>
+                <span class="dash-stat-num" id="totalDisponibles">—</span>
+                <span class="dash-stat-label">Disponibles</span>
+            </div>
+        </div>
+        <div class="dash-stat-card">
+            <span class="dash-stat-icon">📋</span>
+            <div>
+                <span class="dash-stat-num" id="totalSolicitudes">—</span>
+                <span class="dash-stat-label">Solicitudes pendientes</span>
+            </div>
+        </div>
+        <div class="dash-stat-card">
+            <span class="dash-stat-icon">📍</span>
+            <div>
+                <span class="dash-stat-num" id="totalReportes">—</span>
+                <span class="dash-stat-label">Reportes pendientes</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dash-quick-links">
+        <a href="/dashboard/perros" class="quick-link-card">
+            <span>🐕</span>
+            <strong>Gestionar perros</strong>
+            <p>Agrega, edita o actualiza el estado de los perros en adopción.</p>
+        </a>
+        <a href="/dashboard/solicitudes" class="quick-link-card">
+            <span>📋</span>
+            <strong>Revisar solicitudes</strong>
+            <p>Aprueba o rechaza las solicitudes de adopción recibidas.</p>
+        </a>
+        <a href="/dashboard/reportes" class="quick-link-card">
+            <span>📍</span>
+            <strong>Atender reportes</strong>
+            <p>Revisa los reportes ciudadanos de perros en situación de calle.</p>
+        </a>
+    </div>
+</main>
+
+<script src="/js/main.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis perros — Huellas a Casa</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <span class="logo-icon">🐾</span>
+        <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/dashboard" class="sidebar-link">
+            <span>📊</span> Resumen
+        </a>
+        <a href="/dashboard/perros" class="sidebar-link active">
+            <span>🐕</span> Mis perros
+        </a>
+        <a href="/dashboard/solicitudes" class="sidebar-link">
+            <span>📋</span> Solicitudes
+        </a>
+        <a href="/dashboard/reportes" class="sidebar-link">
+            <span>📍</span> Reportes
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="/" class="sidebar-link">← Ver sitio</a>
+        <button class="sidebar-link btn-logout" id="btnLogout">Cerrar sesión</button>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+    <header class="dash-header">
+        <h1>🐕 Mis perros</h1>
+        <button class="btn btn-primary" id="btnAgregarPerro">+ Agregar perro</button>
+    </header>
+
+    <div class="table-container">
+        <table class="dash-table" id="tablaPerros">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    <th>Edad</th>
+                    <th>Raza</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyPerros">
+                <tr><td colspan="7" class="table-loading">Cargando...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- MODAL AGREGAR / EDITAR PERRO -->
+<div class="modal-overlay hidden" id="modalPerro">
+    <div class="modal modal-lg">
+        <button class="modal-close" id="modalPerroClose" aria-label="Cerrar">&times;</button>
+        <h2 id="modalPerroTitle">Agregar perro</h2>
+
+        <form id="formPerro" enctype="multipart/form-data">
+            <input type="hidden" id="perroId" name="id">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="pNombre">Nombre <span class="required">*</span></label>
+                    <input type="text" id="pNombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="pSexo">Sexo <span class="required">*</span></label>
+                    <select id="pSexo" name="sexo" required>
+                        <option value="">Seleccionar</option>
+                        <option value="macho">Macho</option>
+                        <option value="hembra">Hembra</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="pEdad">Edad (meses)</label>
+                    <input type="number" id="pEdad" name="edad_meses" min="0" max="300">
+                </div>
+                <div class="form-group">
+                    <label for="pRaza">Raza</label>
+                    <input type="text" id="pRaza" name="raza" placeholder="Mestizo">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pDescripcion">Descripción</label>
+                <textarea id="pDescripcion" name="descripcion" rows="3"
+                    placeholder="Personalidad, historia, necesidades especiales..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="pEstado">Estado</label>
+                    <select id="pEstado" name="estado">
+                        <option value="disponible">Disponible</option>
+                        <option value="en_proceso">En proceso</option>
+                        <option value="adoptado">Adoptado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pFoto">Fotografía</label>
+                    <input type="file" id="pFoto" name="foto"
+                           accept="image/jpeg,image/png,image/webp">
+                </div>
+            </div>
+
+            <div id="perroFormMsg" class="form-msg hidden"></div>
+            <button type="submit" class="btn btn-primary btn-full" id="btnGuardarPerro">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/dash-perros.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes de adopción — Huellas a Casa</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <span class="logo-icon">🐾</span>
+        <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/dashboard" class="sidebar-link">
+            <span>📊</span> Resumen
+        </a>
+        <a href="/dashboard/perros" class="sidebar-link">
+            <span>🐕</span> Mis perros
+        </a>
+        <a href="/dashboard/solicitudes" class="sidebar-link active">
+            <span>📋</span> Solicitudes
+        </a>
+        <a href="/dashboard/reportes" class="sidebar-link">
+            <span>📍</span> Reportes
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="/" class="sidebar-link">← Ver sitio</a>
+        <button class="sidebar-link btn-logout" id="btnLogout">Cerrar sesión</button>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+    <header class="dash-header">
+        <h1>📋 Solicitudes de adopción</h1>
+    </header>
+
+    <!-- Filtro por estado -->
+    <div class="filters-bar-dash">
+        <button class="filter-chip active" data-estado="todas">Todas</button>
+        <button class="filter-chip" data-estado="pendiente">Pendientes</button>
+        <button class="filter-chip" data-estado="aprobada">Aprobadas</button>
+        <button class="filter-chip" data-estado="rechazada">Rechazadas</button>
+    </div>
+
+    <div class="solicitudes-list" id="solicitudesList">
+        <p class="table-loading">Cargando solicitudes...</p>
+    </div>
+</main>
+
+<script src="/js/main.js"></script>
+<script src="/js/dash-solicitudes.js"></script>
+</body>
+</html>

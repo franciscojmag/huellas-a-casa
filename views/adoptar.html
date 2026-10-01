@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoptar — Huellas a Casa</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/adoptar" class="active">Adoptar</a></li>
+            <li><a href="/reportar">Reportar</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+            <li><a href="/organizaciones">Organizaciones</a></li>
+        </ul>
+        <div class="nav-auth" id="navAuth">
+            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/registro" class="btn btn-primary">Registrarse</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
+    </div>
+</nav>
+
+<!-- ENCABEZADO -->
+<div class="page-header">
+    <span class="section-tag">🐾 ADOPCIÓN</span>
+    <h1>Mascotas esperando un hogar</h1>
+    <p>Cada perrito aquí tiene una historia. Encuentra a tu compañero ideal y dale la vida que merece.</p>
+</div>
+
+<!-- FILTROS -->
+<div class="filters-bar">
+    <div class="filters-container">
+        <button class="filter-chip active" data-filter="todos">Todos</button>
+        <button class="filter-chip" data-filter="cachorros">Cachorros</button>
+        <button class="filter-chip" data-filter="adultos">Adultos</button>
+        <button class="filter-chip" data-filter="macho">Macho</button>
+        <button class="filter-chip" data-filter="hembra">Hembra</button>
+        <button class="filter-chip" data-filter="disponibles">Disponibles</button>
+    </div>
+</div>
+
+<!-- CATÁLOGO -->
+<main class="catalog-section">
+    <div class="card-grid" id="catalogoPerros">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+    </div>
+    <p class="empty-msg hidden" id="emptyMsg">No se encontraron perros con ese filtro.</p>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas a Casa</span>
+            <p>San Pedro de las Colonias, Coahuila</p>
+        </div>
+        <div class="footer-links">
+            <a href="/adoptar">Adoptar</a>
+            <a href="/reportar">Reportar</a>
+            <a href="/contacto">Contacto</a>
+        </div>
+        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/adopcion.js"></script>
+</body>
+</html>

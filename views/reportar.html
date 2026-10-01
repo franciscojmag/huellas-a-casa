@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportar un caso — Huellas a Casa</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/adoptar">Adoptar</a></li>
+            <li><a href="/reportar" class="active">Reportar</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+            <li><a href="/organizaciones">Organizaciones</a></li>
+        </ul>
+        <div class="nav-auth" id="navAuth">
+            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/registro" class="btn btn-primary">Registrarse</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
+    </div>
+</nav>
+
+<main class="report-section">
+    <div class="report-grid">
+
+        <!-- IZQUIERDA: instrucciones -->
+        <div class="report-info">
+            <span class="section-tag">📍 REPORTES CIUDADANOS</span>
+            <h1>¿Viste un perro en situación de calle?</h1>
+            <p>Ayúdanos a rescatarlo. Con tu reporte, las organizaciones afiliadas pueden actuar rápidamente y brindarle atención.</p>
+
+            <div class="steps">
+                <div class="step">
+                    <span class="step-num">1</span>
+                    <div>
+                        <strong>Toma una fotografía</strong>
+                        <p>Captura una imagen clara del animal desde una distancia segura.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num">2</span>
+                    <div>
+                        <strong>Registra la ubicación</strong>
+                        <p>Ingresa la dirección o comparte el link de Google Maps.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num">3</span>
+                    <div>
+                        <strong>Describe la situación</strong>
+                        <p>Indica si está herido, asustado, enfermo o solo.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-num">4</span>
+                    <div>
+                        <strong>Envía el reporte</strong>
+                        <p>La organización recibirá tu reporte y actuará en el menor tiempo posible.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DERECHA: formulario -->
+        <div class="report-form-card">
+            <h2>📋 Nuevo reporte de caso</h2>
+
+            <!-- Bloque para usuarios SIN sesión -->
+            <div id="bloqueNoSesion" class="login-required-box hidden">
+                <span class="login-required-icon">🔒</span>
+                <h3>Necesitas una cuenta para reportar</h3>
+                <p>
+                    Registrarte es gratis y toma menos de 30 segundos.
+                    Con tu cuenta, las organizaciones podrán contactarte
+                    para dar seguimiento a tu reporte.
+                </p>
+                <div class="login-required-actions">
+                    <a href="/registro" class="btn btn-primary btn-full">Crear cuenta gratis</a>
+                    <a href="/login" class="btn btn-outline btn-full">Ya tengo cuenta</a>
+                </div>
+            </div>
+
+            <!-- Formulario solo para usuarios CON sesión -->
+            <form id="formReporte" enctype="multipart/form-data" class="hidden">
+
+                <!-- Indicador del usuario actual -->
+                <div class="reporter-badge" id="reporterBadge"></div>
+
+                <div class="form-group">
+                    <label>Fotografía del animal</label>
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="fotoReporte" name="foto"
+                               accept="image/jpeg,image/png,image/webp" hidden>
+                        <img src="" alt="" id="fotoPreview" class="foto-preview hidden">
+                        <div id="uploadPlaceholder">
+                            <span class="upload-icon">📷</span>
+                            <p>Haz clic para subir una foto o arrástrala aquí</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ubicacion">Ubicación / Dirección <span class="required">*</span></label>
+                    <input type="text" id="ubicacion" name="ubicacion" required
+                           placeholder="Ej. Calle Hidalgo esq. Zaragoza, San Pedro, Coah.">
+                </div>
+
+                <div class="form-group">
+                    <label for="estadoAnimal">Estado del animal <span class="required">*</span></label>
+                    <select id="estadoAnimal" name="estado_animal" required>
+                        <option value="" disabled selected>Selecciona el estado general</option>
+                        <option value="herido">Herido</option>
+                        <option value="asustado">Asustado</option>
+                        <option value="enfermo">Enfermo</option>
+                        <option value="solo">Solo / Abandonado</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción de la situación</label>
+                    <textarea id="descripcion" name="descripcion" rows="4"
+                        placeholder="Describe el estado del perrito y detalles que ayuden a encontrarlo..."></textarea>
+                </div>
+
+                <div id="reporteMsg" class="form-msg hidden"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    Registrar reporte ciudadano
+                </button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text">Huellas a Casa</span>
+            <p>San Pedro de las Colonias, Coahuila</p>
+        </div>
+        <div class="footer-links">
+            <a href="/adoptar">Adoptar</a>
+            <a href="/reportar">Reportar</a>
+            <a href="/contacto">Contacto</a>
+        </div>
+        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/reportes.js"></script>
+</body>
+</html>
