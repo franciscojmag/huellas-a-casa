@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil — Adoptify</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* ---- Layout ---- */
+        .perfil-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem;
+        }
+
+        /* ---- Header de perfil ---- */
+        .perfil-header {
+            background: linear-gradient(135deg, var(--gray-900) 0%, #0f2744 100%);
+            border-radius: var(--radius);
+            padding: 2.25rem 2.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .perfil-header::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(26,158,143,.25) 0%, transparent 65%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .perfil-header::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; left: 30%;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(249,115,22,.12) 0%, transparent 65%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .perfil-avatar {
+            width: 76px;
+            height: 76px;
+            background: rgba(255,255,255,.12);
+            border: 2px solid rgba(255,255,255,.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.25rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .perfil-info { position: relative; z-index: 1; }
+        .perfil-rol-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            background: rgba(26,158,143,.35);
+            border: 1px solid rgba(26,158,143,.5);
+            color: #a7f3ee;
+            font-size: .7rem;
+            font-weight: 700;
+            padding: .2rem .7rem;
+            border-radius: var(--radius-full);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            margin-bottom: .5rem;
+        }
+        .perfil-nombre {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -.02em;
+            margin-bottom: .2rem;
+            line-height: 1.2;
+        }
+        .perfil-email {
+            color: rgba(255,255,255,.6);
+            font-size: .875rem;
+        }
+
+        /* ---- Tabs ---- */
+        .perfil-tabs-wrapper {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-xs);
+        }
+        .perfil-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .perfil-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: .95rem 1rem;
+            font-size: .875rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px;
+            transition: color var(--transition), background var(--transition),
+                        border-color var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+        }
+        .perfil-tab:hover {
+            color: var(--teal);
+            background: var(--gray-50);
+        }
+        .perfil-tab.active {
+            color: var(--teal-dark);
+            border-bottom-color: var(--teal);
+            background: var(--white);
+        }
+
+        .tab-content { display: none; padding: 1.5rem; }
+        .tab-content.active { display: block; }
+
+        /* ---- Tarjeta de solicitud ---- */
+        .solicitud-card-perfil {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.4rem;
+            margin-bottom: .85rem;
+            display: grid;
+            grid-template-columns: 88px 1fr auto;
+            gap: 1.25rem;
+            align-items: center;
+            transition: box-shadow var(--transition), border-color var(--transition);
+        }
+        .solicitud-card-perfil:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--gray-300);
+        }
+        .solicitud-foto-perfil {
+            width: 88px;
+            height: 88px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            background: var(--gray-100);
+        }
+        .solicitud-perro-nombre {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: .3rem;
+            letter-spacing: -.01em;
+        }
+        .solicitud-meta {
+            font-size: .8rem;
+            color: var(--gray-500);
+            margin-bottom: .4rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            flex-wrap: wrap;
+        }
+        .solicitud-meta-sep { color: var(--gray-300); }
+        .solicitud-aprobada-msg {
+            display: flex;
+            align-items: flex-start;
+            gap: .5rem;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-sm);
+            padding: .6rem .85rem;
+            margin-top: .5rem;
+            font-size: .8rem;
+            color: #15803d;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .solicitud-mensaje-perfil {
+            font-size: .8rem;
+            color: var(--gray-600);
+            font-style: italic;
+            background: var(--gray-50);
+            border-left: 3px solid var(--gray-200);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: .45rem .8rem;
+            margin-top: .45rem;
+        }
+        .solicitud-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: .5rem;
+        }
+
+        /* ---- Tarjeta de notificación ---- */
+        .notif-card-perfil {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.4rem;
+            margin-bottom: .85rem;
+            display: flex;
+            gap: 1.1rem;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: box-shadow var(--transition), border-color var(--transition);
+        }
+        .notif-card-perfil:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--gray-300);
+        }
+        .notif-card-perfil.no-leida {
+            border-left: 4px solid var(--teal);
+            background: #fafffe;
+        }
+
+        .notif-icono-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            flex-shrink: 0;
+        }
+        .notif-icono-wrap.aprobada  { background: #f0fdf4; }
+        .notif-icono-wrap.rechazada { background: #fef2f2; }
+        .notif-icono-wrap.default   { background: var(--gray-100); }
+
+        .notif-body-perfil  { flex: 1; min-width: 0; }
+        .notif-titulo-perfil {
+            font-weight: 800;
+            font-size: .9rem;
+            color: var(--gray-900);
+            margin-bottom: .35rem;
+            letter-spacing: -.01em;
+        }
+        .notif-msg-perfil {
+            font-size: .83rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        .notif-footer-perfil {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: .6rem;
+        }
+        .notif-fecha-perfil {
+            font-size: .72rem;
+            color: var(--gray-400);
+        }
+        .notif-dot-perfil {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--teal);
+            flex-shrink: 0;
+            margin-top: .35rem;
+        }
+
+        /* ---- Tarjeta de reporte ---- */
+        .reporte-card-perfil {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.4rem;
+            margin-bottom: .85rem;
+            display: grid;
+            grid-template-columns: 88px 1fr auto;
+            gap: 1.25rem;
+            align-items: start;
+            transition: box-shadow var(--transition), border-color var(--transition);
+        }
+        .reporte-card-perfil:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--gray-300);
+        }
+        .reporte-foto-perfil {
+            width: 88px;
+            height: 88px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            background: var(--gray-100);
+        }
+        .reporte-ubicacion {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: .3rem;
+            letter-spacing: -.01em;
+        }
+        .reporte-meta {
+            font-size: .8rem;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin-bottom: .4rem;
+        }
+        .reporte-desc-perfil {
+            font-size: .8rem;
+            color: var(--gray-600);
+            font-style: italic;
+            background: var(--gray-50);
+            border-left: 3px solid var(--gray-200);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: .45rem .8rem;
+            margin-top: .45rem;
+            line-height: 1.55;
+        }
+
+        /* ---- Empty state ---- */
+        .empty-perfil {
+            text-align: center;
+            padding: 3.5rem 2rem;
+            color: var(--gray-500);
+        }
+        .empty-perfil-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 1rem;
+            filter: grayscale(.3);
+        }
+        .empty-perfil h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gray-700);
+            margin-bottom: .4rem;
+        }
+        .empty-perfil p { font-size: .875rem; margin-bottom: 1.25rem; }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 640px) {
+            .perfil-header { padding: 1.5rem; gap: 1.25rem; }
+            .perfil-nombre { font-size: 1.3rem; }
+            .perfil-tabs { flex-direction: column; }
+            .perfil-tab { justify-content: flex-start; padding: .8rem 1rem; }
+            .solicitud-card-perfil,
+            .reporte-card-perfil { grid-template-columns: 64px 1fr; }
+            .solicitud-card-perfil > .solicitud-actions,
+            .reporte-card-perfil > .estado-badge {
+                grid-column: 1 / -1;
+                align-items: flex-start;
+            }
+            .solicitud-foto-perfil,
+            .reporte-foto-perfil { width: 64px; height: 64px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-logo">
+            <span class="logo-icon">🐾</span>
+            <span class="logo-text"><span class="accent">Adopt</span>ify</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/adoptar">Adoptar</a></li>
+            <li><a href="/reportar">Reportar</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+            <li><a href="/organizaciones">Organizaciones</a></li>
+        </ul>
+        <div class="nav-auth" id="navAuth">
+            <a href="/login" class="btn btn-ghost">Iniciar sesión</a>
+            <a href="/registro" class="btn btn-primary">Registrarse</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
+    </div>
+</nav>
+
+<div class="perfil-wrapper">
+
+    <!-- ---- HEADER ---- -->
+    <div class="perfil-header">
+        <div class="perfil-avatar">👤</div>
+        <div class="perfil-info">
+            <div class="perfil-rol-badge">● Ciudadano</div>
+            <p class="perfil-nombre" id="perfilNombre">Cargando...</p>
+            <p class="perfil-email"  id="perfilEmail"></p>
+        </div>
+    </div>
+
+    <!-- ---- TABS ---- -->
+    <div class="perfil-tabs-wrapper">
+        <div class="perfil-tabs">
+            <button class="perfil-tab active" data-tab="solicitudes">
+                📋 Mis solicitudes
+            </button>
+            <button class="perfil-tab" data-tab="notificaciones">
+                🔔 Notificaciones
+                <span id="tabNotifBadge" class="notif-badge hidden"
+                      style="position:relative;top:auto;right:auto;
+                             margin-left:.2rem;border:none;font-size:.6rem">
+                </span>
+            </button>
+            <button class="perfil-tab" data-tab="reportes">
+                📍 Mis reportes
+            </button>
+        </div>
+
+        <!-- Tab: Solicitudes -->
+        <div class="tab-content active" id="tab-solicitudes">
+            <div id="listaSolicitudes">
+                <div class="empty-perfil">
+                    <span class="empty-perfil-icon">⏳</span>
+                    <p>Cargando solicitudes...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Notificaciones -->
+        <div class="tab-content" id="tab-notificaciones">
+            <div id="listaNotificaciones">
+                <div class="empty-perfil">
+                    <span class="empty-perfil-icon">⏳</span>
+                    <p>Cargando notificaciones...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Reportes -->
+        <div class="tab-content" id="tab-reportes">
+            <div id="listaReportes">
+                <div class="empty-perfil">
+                    <span class="empty-perfil-icon">⏳</span>
+                    <p>Cargando reportes...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <a href="/">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text"><span class="accent">Adopt</span>ify</span>
+            </a>
+            <p>Plataforma web para la gestión de adopción y rescate canino en San Pedro de las Colonias, Coahuila.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Plataforma</h4>
+            <ul>
+                <li><a href="/adoptar">Adoptar un perro</a></li>
+                <li><a href="/reportar">Reportar un caso</a></li>
+                <li><a href="/organizaciones">Organizaciones</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Cuenta</h4>
+            <ul>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse gratis</a></li>
+                <li><a href="/perfil">Mi perfil</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Adoptify — Proyecto universitario ITSPC</p>
+        <p class="footer-copy">Hecho con ❤️ en San Pedro de las Colonias</p>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/perfil.js"></script>
+</body>
+</html>

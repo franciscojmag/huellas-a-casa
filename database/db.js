@@ -14,12 +14,22 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
     console.log('Base de datos conectada:', DB_PATH);
 });
 
-// Activa foreign keys en cada conexión
+// Maneja errores no capturados de la BD (ej. SQLITE_BUSY en PRAGMAs de inicio)
+db.on('error', (err) => {
+    console.error('DB error:', err.message);
+});
+
+// Configura pragmas — si DB Browser tiene la BD abierta en modo exclusivo
+// estos pueden fallar, pero el servidor sigue corriendo (no crashea)
+db.run('PRAGMA journal_mode = WAL', (err) => {
+    if (err) console.warn('WAL no disponible (BD posiblemente abierta en otro proceso):', err.message);
+});
+db.run('PRAGMA busy_timeout = 5000');
 db.run('PRAGMA foreign_keys = ON');
 
 // Si la BD es nueva, ejecuta el schema con los datos de prueba
 db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='usuarios'", (err, row) => {
-    if (err) { console.error(err); return; }
+    if (err) { console.error(err.message); return; }
     if (!row) {
         console.log('Inicializando base de datos con schema.sql...');
         const sql = fs.readFileSync(SCHEMA_PATH, 'utf8');
@@ -34,10 +44,9 @@ db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='usuarios'", 
 });
 
 // ---------------------------------------------------------------
-// Helpers con promesas para evitar callback hell en las rutas
+// Helpers con promesas
 // ---------------------------------------------------------------
 
-/** SELECT que devuelve múltiples filas */
 function all(sql, params = []) {
     return new Promise((resolve, reject) => {
         db.all(sql, params, (err, rows) => {
@@ -47,7 +56,6 @@ function all(sql, params = []) {
     });
 }
 
-/** SELECT que devuelve una sola fila */
 function get(sql, params = []) {
     return new Promise((resolve, reject) => {
         db.get(sql, params, (err, row) => {
@@ -57,7 +65,6 @@ function get(sql, params = []) {
     });
 }
 
-/** INSERT / UPDATE / DELETE — devuelve { lastID, changes } */
 function run(sql, params = []) {
     return new Promise((resolve, reject) => {
         db.run(sql, params, function (err) {

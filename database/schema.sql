@@ -1,5 +1,5 @@
 -- ============================================================
--- Huellas a Casa - Schema de base de datos
+-- Adoptify - Schema de base de datos
 -- Ejecutar este archivo en DB Browser for SQLite
 -- ============================================================
 
@@ -74,11 +74,26 @@ CREATE TABLE IF NOT EXISTS reportes (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
     ciudadano_id    INTEGER REFERENCES usuarios(id) ON DELETE SET NULL,
     ubicacion       TEXT    NOT NULL,
+    lat             REAL,
+    lng             REAL,
     estado_animal   TEXT    NOT NULL CHECK(estado_animal IN ('herido', 'asustado', 'enfermo', 'solo', 'otro')),
     descripcion     TEXT,
     foto_url        TEXT,
     estado_reporte  TEXT    NOT NULL DEFAULT 'pendiente' CHECK(estado_reporte IN ('pendiente', 'atendido', 'cerrado')),
     fecha           TEXT    NOT NULL DEFAULT (datetime('now'))
+);
+
+-- ============================================================
+-- Tabla: notificaciones
+-- ============================================================
+CREATE TABLE IF NOT EXISTS notificaciones (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id  INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+    tipo        TEXT    NOT NULL,
+    titulo      TEXT    NOT NULL,
+    mensaje     TEXT    NOT NULL,
+    leida       INTEGER NOT NULL DEFAULT 0,
+    fecha       TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
 -- ============================================================

@@ -2,6 +2,7 @@
  * dash-perros.js — Gestión de perros (dashboard/perros.html)
  */
 let perrosOrg = [];
+let guardando  = false; // bandera para evitar doble envío
 
 document.addEventListener('DOMContentLoaded', async () => {
     await verificarSesion();
@@ -65,14 +66,57 @@ function initModal() {
     document.getElementById('modalPerro').addEventListener('click', (e) => {
         if (e.target === e.currentTarget) cerrarModal();
     });
+
+    // submit del formulario
     document.getElementById('formPerro').addEventListener('submit', guardarPerro);
+
+    // Preview de foto — se registra una sola vez aquí, nunca dentro de abrirModal
+    document.getElementById('pFoto').addEventListener('change', function (e) {
+        // Detiene cualquier propagación que pudiera llegar al form
+        e.stopPropagation();
+
+        const preview = document.getElementById('fotoActualPreview');
+        const file    = this.files && this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            preview.src = ev.target.result;
+            preview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    });
 }
 
 function abrirModal(perro = null) {
-    const form  = document.getElementById('formPerro');
-    const title = document.getElementById('modalPerroTitle');
-    form.reset();
-    document.getElementById('perroFormMsg').classList.add('hidden');
+    const title   = document.getElementById('modalPerroTitle');
+    const preview = document.getElementById('fotoActualPreview');
+    const msgEl   = document.getElementById('perroFormMsg');
+
+    // Limpia campos manualmente — NO usar form.reset() porque en Chrome/Edge
+    // puede disparar el evento change del input file y en cascada el submit
+    document.getElementById('perroId').value      = '';
+    document.getElementById('pNombre').value      = '';
+    document.getElementById('pSexo').value        = '';
+    document.getElementById('pEdad').value        = '';
+    document.getElementById('pRaza').value        = '';
+    document.getElementById('pDescripcion').value = '';
+    document.getElementById('pEstado').value      = 'disponible';
+
+    // Limpia el input file reemplazando el elemento para evitar eventos residuales
+    const inputFile = document.getElementById('pFoto');
+    inputFile.value = '';
+
+    // Oculta preview y mensaje
+    preview.classList.add('hidden');
+    preview.src = '';
+    msgEl.classList.add('hidden');
+
+    // Resetea bandera y botón
+    guardando = false;
+    const btn = document.getElementById('btnGuardarPerro');
+    btn.disabled = false;
+    btn.textContent = 'Guardar';
 
     if (perro) {
         title.textContent = 'Editar perro';
@@ -83,9 +127,13 @@ function abrirModal(perro = null) {
         document.getElementById('pRaza').value        = perro.raza;
         document.getElementById('pDescripcion').value = perro.descripcion || '';
         document.getElementById('pEstado').value      = perro.estado;
+
+        if (perro.foto_url) {
+            preview.src = perro.foto_url;
+            preview.classList.remove('hidden');
+        }
     } else {
         title.textContent = 'Agregar perro';
-        document.getElementById('perroId').value = '';
     }
 
     document.getElementById('modalPerro').classList.remove('hidden');
@@ -100,24 +148,30 @@ function abrirEditar(id) {
 function cerrarModal() {
     document.getElementById('modalPerro').classList.add('hidden');
     document.body.style.overflow = '';
+    guardando = false;
 }
 
 async function guardarPerro(e) {
     e.preventDefault();
+    e.stopPropagation();
+
+    // Evita doble envío
+    if (guardando) return;
+    guardando = true;
+
     const msgEl = document.getElementById('perroFormMsg');
     const btn   = document.getElementById('btnGuardarPerro');
     const id    = document.getElementById('perroId').value;
 
     btn.disabled = true;
     btn.textContent = 'Guardando...';
+    msgEl.classList.add('hidden');
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(document.getElementById('formPerro'));
 
     try {
-        const url    = id ? `/api/admin/perros/${id}` : '/api/admin/perros';
-        const method = id ? 'PUT' : 'POST';
-
-        const res  = await fetch(url, { method, body: formData });
+        const url = id ? `/api/admin/perros/${id}` : '/api/admin/perros';
+        const res  = await fetch(url, { method: 'POST', body: formData });
         const data = await res.json();
 
         if (res.ok) {
@@ -125,11 +179,13 @@ async function guardarPerro(e) {
             await cargarPerros();
         } else {
             window.HuellaUtils.showMsg(msgEl, data.error || 'Error al guardar.', 'error');
+            guardando = false;
             btn.disabled = false;
             btn.textContent = 'Guardar';
         }
     } catch (_) {
         window.HuellaUtils.showMsg(msgEl, 'Error de conexión.', 'error');
+        guardando = false;
         btn.disabled = false;
         btn.textContent = 'Guardar';
     }

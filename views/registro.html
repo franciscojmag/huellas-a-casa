@@ -1,93 +1,150 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrarse — Huellas a Casa</title>
+    <title>Crear cuenta — Adoptify</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="auth-page">
 
-<div class="auth-container">
-    <a href="/" class="auth-logo">
-        <span class="logo-icon">🐾</span>
-        <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
-    </a>
+    <!-- PANEL IZQUIERDO: decorativo -->
+    <div class="auth-panel">
+        <div class="auth-panel-content">
+            <a href="/" class="auth-panel-logo">
+                <span class="logo-icon">🐾</span>
+                <span><span class="accent">Adopt</span>ify</span>
+            </a>
 
-    <div class="auth-card">
-        <h1>Crear cuenta</h1>
-        <p class="auth-subtitle">Únete a la comunidad de Huellas a Casa.</p>
+            <h2>Sé parte del cambio.<br>Adopta, reporta, ayuda.</h2>
+            <p>
+                Crea tu cuenta gratis y comienza a marcar la diferencia
+                en la vida de los perros en San Pedro de las Colonias.
+            </p>
 
-        <!-- Selector de tipo de cuenta -->
-        <div class="role-tabs">
-            <button class="role-tab active" data-rol="ciudadano" type="button">
-                👤 Soy ciudadano
-            </button>
-            <button class="role-tab" data-rol="org" type="button">
-                🏠 Soy organización
-            </button>
+            <div class="auth-panel-features">
+                <div class="auth-feature">
+                    <span class="auth-feature-icon">🏠</span>
+                    Organizaciones: gestiona adopciones y reportes
+                </div>
+                <div class="auth-feature">
+                    <span class="auth-feature-icon">❤️</span>
+                    Ciudadanos: solicita adoptar a tu compañero ideal
+                </div>
+                <div class="auth-feature">
+                    <span class="auth-feature-icon">📍</span>
+                    Reporta perros en situación de calle con ubicación exacta
+                </div>
+                <div class="auth-feature">
+                    <span class="auth-feature-icon">🔔</span>
+                    Recibe notificaciones sobre el estado de tus solicitudes
+                </div>
+            </div>
         </div>
-
-        <form id="formRegistro">
-            <input type="hidden" id="rolInput" name="rol" value="ciudadano">
-
-            <div class="form-group">
-                <label for="nombre">Nombre completo</label>
-                <input type="text" id="nombre" name="nombre"
-                       placeholder="Tu nombre completo" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Correo electrónico</label>
-                <input type="email" id="email" name="email"
-                       placeholder="tu@correo.com" required>
-            </div>
-
-            <div class="form-group">
-                <label for="telefono">Teléfono (opcional)</label>
-                <input type="tel" id="telefono" name="telefono"
-                       placeholder="844 000 0000">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password"
-                       placeholder="Mínimo 6 caracteres" required minlength="6">
-            </div>
-
-            <!-- Campos solo para organizaciones -->
-            <div id="orgFields" class="hidden">
-                <hr class="divider">
-                <p class="form-section-title">Datos de la organización</p>
-                <div class="form-group">
-                    <label for="nombre_org">Nombre de la organización <span class="required">*</span></label>
-                    <input type="text" id="nombre_org" name="nombre_org"
-                           placeholder="Ej. Rescate San Pedro AC">
-                </div>
-                <div class="form-group">
-                    <label for="direccion_org">Dirección</label>
-                    <input type="text" id="direccion_org" name="direccion_org"
-                           placeholder="Calle, colonia, ciudad">
-                </div>
-                <div class="form-group">
-                    <label for="descripcion_org">Descripción breve</label>
-                    <textarea id="descripcion_org" name="descripcion_org" rows="3"
-                        placeholder="¿Qué hace tu organización?"></textarea>
-                </div>
-            </div>
-
-            <div id="registroMsg" class="form-msg hidden"></div>
-
-            <button type="submit" class="btn btn-primary btn-full">Crear cuenta</button>
-        </form>
-
-        <p class="auth-footer">
-            ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
-        </p>
     </div>
-</div>
 
+    <!-- PANEL DERECHO: formulario -->
+    <div class="auth-form-side">
+        <div class="auth-form-container" style="max-width:460px">
+
+            <div class="auth-form-header">
+                <h1>Crear cuenta</h1>
+                <p>¿Quién eres? Elige tu tipo de cuenta para comenzar.</p>
+            </div>
+
+            <!-- Selector de tipo de cuenta -->
+            <div class="role-tabs">
+                <button class="role-tab active" data-rol="ciudadano" type="button">
+                    👤 Soy ciudadano
+                </button>
+                <button class="role-tab" data-rol="org" type="button">
+                    🏠 Soy organización
+                </button>
+            </div>
+
+            <form id="formRegistro" novalidate>
+                <input type="hidden" id="rolInput" name="rol" value="ciudadano">
+
+                <!-- Campos base -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo <span class="required">*</span></label>
+                        <input type="text" id="nombre" name="nombre"
+                               placeholder="Tu nombre completo" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono"
+                               placeholder="844 000 0000" autocomplete="tel">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo electrónico <span class="required">*</span></label>
+                    <input type="email" id="email" name="email"
+                           placeholder="tu@correo.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password"
+                               placeholder="Mínimo 6 caracteres"
+                               required minlength="6" autocomplete="new-password">
+                        <button type="button" class="toggle-password" id="togglePassword"
+                                aria-label="Mostrar contraseña">👁</button>
+                    </div>
+                </div>
+
+                <!-- Campos adicionales para organizaciones -->
+                <div id="orgFields" class="hidden">
+                    <div class="divider"></div>
+                    <p class="form-section-title">Datos de la organización</p>
+
+                    <div class="form-group">
+                        <label for="nombre_org">Nombre de la organización <span class="required">*</span></label>
+                        <input type="text" id="nombre_org" name="nombre_org"
+                               placeholder="Ej. Rescate San Pedro AC">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion_org">Dirección</label>
+                        <input type="text" id="direccion_org" name="direccion_org"
+                               placeholder="Calle, colonia, ciudad">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion_org">Descripción breve</label>
+                        <textarea id="descripcion_org" name="descripcion_org" rows="2"
+                            placeholder="¿Qué hace tu organización?"></textarea>
+                    </div>
+                </div>
+
+                <div id="registroMsg" class="form-msg hidden"></div>
+
+                <button type="submit" class="btn btn-primary btn-full" style="margin-top:.5rem">
+                    Crear cuenta gratis
+                </button>
+            </form>
+
+            <div class="auth-form-footer">
+                ¿Ya tienes cuenta?
+                <a href="/login">Inicia sesión aquí</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
 <script src="/js/main.js"></script>
 <script src="/js/registro.js"></script>
-</body>
+<script>
+    // Toggle visibilidad de contraseña
+    document.getElementById('togglePassword')?.addEventListener('click', function () {
+        const input = document.getElementById('password');
+        const esTexto = input.type === 'text';
+        input.type   = esTexto ? 'password' : 'text';
+        this.textContent = esTexto ? '👁' : '🙈';
+    });
+</script>
 </html>

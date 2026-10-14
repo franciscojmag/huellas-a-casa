@@ -1,5 +1,5 @@
 /**
- * Huellas a Casa — Servidor principal
+ * Adoptify — Servidor principal
  * Node.js + Express
  */
 const express       = require('express');
@@ -7,11 +7,12 @@ const session       = require('express-session');
 const path          = require('path');
 
 // Importa rutas
-const authRoutes      = require('./routes/auth');
-const perrosRoutes    = require('./routes/perros');
-const adopcionesRoutes = require('./routes/adopciones');
-const reportesRoutes  = require('./routes/reportes');
-const adminRoutes     = require('./routes/admin');
+const authRoutes           = require('./routes/auth');
+const perrosRoutes         = require('./routes/perros');
+const adopcionesRoutes     = require('./routes/adopciones');
+const reportesRoutes       = require('./routes/reportes');
+const adminRoutes          = require('./routes/admin');
+const notificacionesRoutes = require('./routes/notificaciones');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Sesiones
 app.use(session({
-    secret: 'huellas_a_casa_secret_2026',
+    secret: 'adoptify_secret_2026',
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -58,11 +59,12 @@ app.get('/api/organizaciones', async (req, res) => {
     }
 });
 
-app.use('/api/auth',       authRoutes);
-app.use('/api/perros',     perrosRoutes);
-app.use('/api/adopciones', adopcionesRoutes);
-app.use('/api/reportes',   reportesRoutes);
-app.use('/api/admin',      adminRoutes);
+app.use('/api/auth',            authRoutes);
+app.use('/api/perros',          perrosRoutes);
+app.use('/api/adopciones',      adopcionesRoutes);
+app.use('/api/reportes',        reportesRoutes);
+app.use('/api/admin',           adminRoutes);
+app.use('/api/notificaciones',  notificacionesRoutes);
 
 // ---------------------------------------------------------------
 // Rutas HTML — sirve las vistas
@@ -75,6 +77,7 @@ app.get('/perro/:id',       (req, res) => res.sendFile(path.join(VIEWS, 'perro.h
 app.get('/reportar',        (req, res) => res.sendFile(path.join(VIEWS, 'reportar.html')));
 app.get('/login',           (req, res) => res.sendFile(path.join(VIEWS, 'login.html')));
 app.get('/registro',        (req, res) => res.sendFile(path.join(VIEWS, 'registro.html')));
+app.get('/perfil',          (req, res) => res.sendFile(path.join(VIEWS, 'perfil.html')));
 app.get('/contacto',        (req, res) => res.sendFile(path.join(VIEWS, 'contacto.html')));
 app.get('/organizaciones',  (req, res) => res.sendFile(path.join(VIEWS, 'organizaciones.html')));
 app.get('/dashboard',       (req, res) => res.sendFile(path.join(VIEWS, 'dashboard', 'index.html')));
@@ -99,5 +102,5 @@ app.use((err, req, res, next) => {
 // Inicia el servidor
 // ---------------------------------------------------------------
 app.listen(PORT, () => {
-    console.log(`\n🐾 Huellas a Casa corriendo en http://localhost:${PORT}\n`);
+    console.log(`\n🐾 Adoptify corriendo en http://localhost:${PORT}\n`);
 });

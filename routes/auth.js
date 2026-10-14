@@ -53,10 +53,18 @@ router.post('/login', async (req, res) => {
             rol:    usuario.rol
         };
 
-        // Si es org, agrega org_id a la sesión
+        // Si es org, verifica que tenga registro en organizaciones
         if (usuario.rol === 'org') {
             const org = await get('SELECT id FROM organizaciones WHERE usuario_id = ?', [usuario.id]);
-            if (org) req.session.usuario.org_id = org.id;
+
+            if (!org) {
+                // Usuario con rol org pero sin organización vinculada — estado corrupto
+                return res.status(403).json({
+                    error: 'Esta cuenta de organización está incompleta o fue eliminada. Contacta al administrador.'
+                });
+            }
+
+            req.session.usuario.org_id = org.id;
         }
 
         return res.json({ ok: true, usuario: req.session.usuario });

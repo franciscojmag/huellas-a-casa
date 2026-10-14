@@ -1,5 +1,5 @@
 {
-  "name": "huellas-a-casa",
+  "name": "adoptify",
   "version": "1.0.0",
   "description": "Plataforma web para gestión de adopción y rescate canino en San Pedro de las Colonias",
   "main": "server.js",

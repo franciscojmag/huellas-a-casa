@@ -1,65 +1,114 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organizaciones — Huellas a Casa</title>
+    <title>Organizaciones — Adoptify</title>
     <link rel="stylesheet" href="/css/styles.css">
     <style>
         .orgs-section {
-            max-width: 1000px;
-            margin: 2rem auto;
+            max-width: 1100px;
+            margin: 2.5rem auto;
             padding: 0 1.5rem 4rem;
         }
+
         .org-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
+
         .org-card {
             background: var(--white);
-            border: 1px solid var(--gray-100);
+            border: 1px solid var(--gray-200);
             border-radius: var(--radius);
             padding: 1.75rem;
             box-shadow: var(--shadow);
-            transition: transform var(--transition), box-shadow var(--transition);
+            transition: transform var(--transition), box-shadow var(--transition),
+                        border-color var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: .9rem;
         }
         .org-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-md);
+            border-color: var(--teal-mid);
+        }
+
+        .org-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         .org-logo {
-            width: 64px;
-            height: 64px;
-            background: var(--teal-light);
-            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--teal-light) 0%, var(--teal-mid) 100%);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            flex-shrink: 0;
         }
-        .org-name { font-size: 1.15rem; font-weight: 700; margin-bottom: .35rem; }
-        .org-desc { color: var(--gray-500); font-size: .88rem; line-height: 1.6; margin-bottom: 1rem; }
-        .org-meta { font-size: .82rem; color: var(--gray-500); }
-        .org-meta p { margin-bottom: .25rem; }
+        .org-name {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            letter-spacing: -.01em;
+            margin-bottom: .1rem;
+        }
         .org-perros {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
             background: var(--teal-light);
-            color: var(--teal);
-            font-size: .75rem;
+            color: var(--teal-dark);
+            font-size: .72rem;
             font-weight: 700;
             padding: .2rem .65rem;
-            border-radius: 999px;
-            margin-top: .75rem;
+            border-radius: var(--radius-full);
         }
+
+        .org-desc {
+            color: var(--gray-500);
+            font-size: .875rem;
+            line-height: 1.65;
+            flex: 1;
+        }
+
+        .org-meta {
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+            padding-top: .75rem;
+            border-top: 1px solid var(--gray-100);
+        }
+        .org-meta-item {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .8rem;
+            color: var(--gray-500);
+        }
+        .org-meta-item span:first-child {
+            font-size: .95rem;
+            width: 1.2rem;
+            text-align: center;
+        }
+
+        .org-card-footer {
+            padding-top: .5rem;
+        }
+
         .skeleton-org {
-            height: 220px;
+            height: 240px;
             border-radius: var(--radius);
-            background: linear-gradient(90deg, var(--gray-100) 25%, #e2e8f0 50%, var(--gray-100) 75%);
+            background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%);
             background-size: 200% 100%;
-            animation: skeleton-shimmer 1.4s infinite;
+            animation: skeleton-shimmer 1.6s infinite;
         }
     </style>
 </head>
@@ -70,7 +119,7 @@
     <div class="nav-container">
         <a href="/" class="nav-logo">
             <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+            <span class="logo-text"><span class="accent">Adopt</span>ify</span>
         </a>
         <ul class="nav-links">
             <li><a href="/adoptar">Adoptar</a></li>
@@ -79,49 +128,74 @@
             <li><a href="/organizaciones" class="active">Organizaciones</a></li>
         </ul>
         <div class="nav-auth" id="navAuth">
-            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/login" class="btn btn-ghost">Iniciar sesión</a>
             <a href="/registro" class="btn btn-primary">Registrarse</a>
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
     </div>
 </nav>
 
+<!-- PAGE HEADER -->
 <div class="page-header">
     <span class="section-tag">🏠 ORGANIZACIONES</span>
     <h1>Organizaciones afiliadas</h1>
     <p>Estas organizaciones trabajan diariamente por el bienestar de los perros en San Pedro de las Colonias.</p>
 </div>
 
+<!-- LISTADO -->
 <main class="orgs-section">
     <div class="org-grid" id="orgGrid">
+        <div class="skeleton-org"></div>
         <div class="skeleton-org"></div>
         <div class="skeleton-org"></div>
     </div>
 </main>
 
-<!-- CTA para que se registren nuevas orgs -->
+<!-- CTA -->
 <section class="cta-section">
     <div class="cta-content">
         <h2>¿Diriges una organización de rescate?</h2>
-        <p>Únete a Huellas a Casa y gestiona tus adopciones y reportes desde un solo lugar.</p>
-        <a href="/registro" class="btn btn-primary btn-lg">Registrar mi organización</a>
+        <p>
+            Únete a Adoptify y gestiona tus adopciones, reportes ciudadanos
+            y solicitudes desde un solo lugar. Es completamente gratuito.
+        </p>
+        <a href="/registro" class="btn btn-primary btn-xl">
+            Registrar mi organización
+        </a>
     </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas a Casa</span>
-            <p>San Pedro de las Colonias, Coahuila</p>
+            <a href="/">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text"><span class="accent">Adopt</span>ify</span>
+            </a>
+            <p>Plataforma web para la gestión de adopción y rescate canino en San Pedro de las Colonias, Coahuila.</p>
         </div>
-        <div class="footer-links">
-            <a href="/adoptar">Adoptar</a>
-            <a href="/reportar">Reportar</a>
-            <a href="/contacto">Contacto</a>
-            <a href="/organizaciones">Organizaciones</a>
+        <div class="footer-col">
+            <h4>Plataforma</h4>
+            <ul>
+                <li><a href="/adoptar">Adoptar un perro</a></li>
+                <li><a href="/reportar">Reportar un caso</a></li>
+                <li><a href="/organizaciones">Organizaciones</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
         </div>
-        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+        <div class="footer-col">
+            <h4>Cuenta</h4>
+            <ul>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse gratis</a></li>
+                <li><a href="/perfil">Mi perfil</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Adoptify — Proyecto universitario ITSPC</p>
+        <p class="footer-copy">Hecho con ❤️ en San Pedro de las Colonias</p>
     </div>
 </footer>
 

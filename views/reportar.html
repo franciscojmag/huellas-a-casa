@@ -1,10 +1,46 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportar un caso — Huellas a Casa</title>
+    <title>Reportar un caso — Adoptify</title>
     <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+    <style>
+        /* Mapa del formulario de reporte */
+        #mapaReporte {
+            width: 100%;
+            height: 260px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--gray-300);
+            z-index: 1;
+            cursor: crosshair;
+        }
+        .mapa-hint {
+            font-size: .78rem;
+            color: var(--gray-500);
+            margin-top: .35rem;
+            display: flex;
+            align-items: center;
+            gap: .3rem;
+        }
+        .coordenadas-badge {
+            background: var(--teal-light);
+            color: var(--teal);
+            border-radius: var(--radius-sm);
+            padding: .45rem .85rem;
+            font-size: .8rem;
+            font-weight: 600;
+            margin-top: .5rem;
+            display: none;
+        }
+        /* Centra bien la ciudad en el mapa */
+        .leaflet-container { font-family: var(--font); }
+    </style>
 </head>
 <body>
 
@@ -13,7 +49,7 @@
     <div class="nav-container">
         <a href="/" class="nav-logo">
             <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+            <span class="logo-text"><span class="accent">Adopt</span>ify</span>
         </a>
         <ul class="nav-links">
             <li><a href="/adoptar">Adoptar</a></li>
@@ -22,7 +58,7 @@
             <li><a href="/organizaciones">Organizaciones</a></li>
         </ul>
         <div class="nav-auth" id="navAuth">
-            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/login" class="btn btn-ghost">Iniciar sesión</a>
             <a href="/registro" class="btn btn-primary">Registrarse</a>
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
@@ -49,8 +85,8 @@
                 <div class="step">
                     <span class="step-num">2</span>
                     <div>
-                        <strong>Registra la ubicación</strong>
-                        <p>Ingresa la dirección o comparte el link de Google Maps.</p>
+                        <strong>Marca la ubicación en el mapa</strong>
+                        <p>Haz clic en el mapa para colocar el pin exacto donde está el perro.</p>
                     </div>
                 </div>
                 <div class="step">
@@ -90,11 +126,16 @@
             </div>
 
             <!-- Formulario solo para usuarios CON sesión -->
-            <form id="formReporte" enctype="multipart/form-data" class="hidden">
+            <form id="formReporte" enctype="multipart/form-data">
+
+                <!-- Campos ocultos para coordenadas -->
+                <input type="hidden" id="latInput" name="lat">
+                <input type="hidden" id="lngInput" name="lng">
 
                 <!-- Indicador del usuario actual -->
                 <div class="reporter-badge" id="reporterBadge"></div>
 
+                <!-- FOTO -->
                 <div class="form-group">
                     <label>Fotografía del animal</label>
                     <div class="upload-area" id="uploadArea">
@@ -108,12 +149,25 @@
                     </div>
                 </div>
 
+                <!-- MAPA -->
                 <div class="form-group">
-                    <label for="ubicacion">Ubicación / Dirección <span class="required">*</span></label>
-                    <input type="text" id="ubicacion" name="ubicacion" required
-                           placeholder="Ej. Calle Hidalgo esq. Zaragoza, San Pedro, Coah.">
+                    <label>Ubicación en el mapa <span class="required">*</span></label>
+                    <div id="mapaReporte"></div>
+                    <p class="mapa-hint">📌 Haz clic en el mapa para colocar el pin exacto</p>
+                    <div class="coordenadas-badge" id="coordenadasBadge"></div>
                 </div>
 
+                <!-- DIRECCIÓN TEXTO (se rellena automáticamente al hacer clic) -->
+                <div class="form-group">
+                    <label for="ubicacion">Dirección / Referencia <span class="required">*</span></label>
+                    <input type="text" id="ubicacion" name="ubicacion" required
+                           placeholder="Se llena automáticamente al marcar el mapa…">
+                    <small style="color:var(--gray-500);display:block;margin-top:.3rem">
+                        Puedes editarla para agregar referencias (ej. "frente al OXXO")
+                    </small>
+                </div>
+
+                <!-- ESTADO DEL ANIMAL -->
                 <div class="form-group">
                     <label for="estadoAnimal">Estado del animal <span class="required">*</span></label>
                     <select id="estadoAnimal" name="estado_animal" required>
@@ -126,9 +180,10 @@
                     </select>
                 </div>
 
+                <!-- DESCRIPCIÓN -->
                 <div class="form-group">
                     <label for="descripcion">Descripción de la situación</label>
-                    <textarea id="descripcion" name="descripcion" rows="4"
+                    <textarea id="descripcion" name="descripcion" rows="3"
                         placeholder="Describe el estado del perrito y detalles que ayuden a encontrarlo..."></textarea>
                 </div>
 
@@ -146,18 +201,41 @@
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas a Casa</span>
-            <p>San Pedro de las Colonias, Coahuila</p>
+            <a href="/">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text"><span class="accent">Adopt</span>ify</span>
+            </a>
+            <p>Plataforma web para la gestión de adopción y rescate canino en San Pedro de las Colonias, Coahuila.</p>
         </div>
-        <div class="footer-links">
-            <a href="/adoptar">Adoptar</a>
-            <a href="/reportar">Reportar</a>
-            <a href="/contacto">Contacto</a>
+        <div class="footer-col">
+            <h4>Plataforma</h4>
+            <ul>
+                <li><a href="/adoptar">Adoptar un perro</a></li>
+                <li><a href="/reportar">Reportar un caso</a></li>
+                <li><a href="/organizaciones">Organizaciones</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
         </div>
-        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+        <div class="footer-col">
+            <h4>Cuenta</h4>
+            <ul>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse gratis</a></li>
+                <li><a href="/perfil">Mi perfil</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Adoptify — Proyecto universitario ITSPC</p>
+        <p class="footer-copy">Hecho con ❤️ en San Pedro de las Colonias</p>
     </div>
 </footer>
+
+<!-- Leaflet JS -->
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
 
 <script src="/js/main.js"></script>
 <script src="/js/reportes.js"></script>

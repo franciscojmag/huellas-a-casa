@@ -1,4 +1,4 @@
-# 🐾 Huellas a Casa
+﻿# 🐾 Adoptify
 
 Plataforma web para la gestión de adopción y rescate canino en San Pedro de las Colonias, Coahuila.
 
@@ -60,8 +60,8 @@ git --version
 ### 1. Clona el repositorio
 
 ```bash
-git clone https://github.com/TU_USUARIO/huellas-a-casa.git
-cd huellas-a-casa
+git clone https://github.com/TU_USUARIO/adoptify.git
+cd adoptify
 ```
 
 ### 2. Instala las dependencias
@@ -104,7 +104,7 @@ La contraseña para todas las cuentas de prueba es: **`password`**
 ## Estructura del proyecto
 
 ```
-huellas-a-casa/
+adoptify/
 │
 ├── server.js              # Punto de entrada — configura Express y rutas
 ├── package.json           # Dependencias y scripts

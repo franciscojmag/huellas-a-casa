@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoptar — Huellas a Casa</title>
+    <title>Adoptar — Adoptify</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <div class="nav-container">
         <a href="/" class="nav-logo">
             <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+            <span class="logo-text"><span class="accent">Adopt</span>ify</span>
         </a>
         <ul class="nav-links">
             <li><a href="/adoptar" class="active">Adoptar</a></li>
@@ -22,14 +22,14 @@
             <li><a href="/organizaciones">Organizaciones</a></li>
         </ul>
         <div class="nav-auth" id="navAuth">
-            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/login" class="btn btn-ghost">Iniciar sesión</a>
             <a href="/registro" class="btn btn-primary">Registrarse</a>
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
     </div>
 </nav>
 
-<!-- ENCABEZADO -->
+<!-- PAGE HEADER -->
 <div class="page-header">
     <span class="section-tag">🐾 ADOPCIÓN</span>
     <h1>Mascotas esperando un hogar</h1>
@@ -40,16 +40,19 @@
 <div class="filters-bar">
     <div class="filters-container">
         <button class="filter-chip active" data-filter="todos">Todos</button>
-        <button class="filter-chip" data-filter="cachorros">Cachorros</button>
-        <button class="filter-chip" data-filter="adultos">Adultos</button>
-        <button class="filter-chip" data-filter="macho">Macho</button>
-        <button class="filter-chip" data-filter="hembra">Hembra</button>
-        <button class="filter-chip" data-filter="disponibles">Disponibles</button>
+        <button class="filter-chip" data-filter="cachorros">🐶 Cachorros</button>
+        <button class="filter-chip" data-filter="adultos">🐕 Adultos</button>
+        <button class="filter-chip" data-filter="macho">♂ Macho</button>
+        <button class="filter-chip" data-filter="hembra">♀ Hembra</button>
+        <button class="filter-chip" data-filter="disponibles">✓ Disponibles</button>
     </div>
 </div>
 
 <!-- CATÁLOGO -->
 <main class="catalog-section">
+    <div class="catalog-toolbar">
+        <p class="catalog-count" id="catalogCount"></p>
+    </div>
     <div class="card-grid" id="catalogoPerros">
         <div class="skeleton-card"></div>
         <div class="skeleton-card"></div>
@@ -58,23 +61,42 @@
         <div class="skeleton-card"></div>
         <div class="skeleton-card"></div>
     </div>
-    <p class="empty-msg hidden" id="emptyMsg">No se encontraron perros con ese filtro.</p>
+    <p class="empty-msg hidden" id="emptyMsg">
+        😔 No se encontraron perros con ese filtro.
+    </p>
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas a Casa</span>
-            <p>San Pedro de las Colonias, Coahuila</p>
+            <a href="/">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text"><span class="accent">Adopt</span>ify</span>
+            </a>
+            <p>Plataforma web para la gestión de adopción y rescate canino en San Pedro de las Colonias, Coahuila.</p>
         </div>
-        <div class="footer-links">
-            <a href="/adoptar">Adoptar</a>
-            <a href="/reportar">Reportar</a>
-            <a href="/contacto">Contacto</a>
+        <div class="footer-col">
+            <h4>Plataforma</h4>
+            <ul>
+                <li><a href="/adoptar">Adoptar un perro</a></li>
+                <li><a href="/reportar">Reportar un caso</a></li>
+                <li><a href="/organizaciones">Organizaciones</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
         </div>
-        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+        <div class="footer-col">
+            <h4>Cuenta</h4>
+            <ul>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse gratis</a></li>
+                <li><a href="/perfil">Mi perfil</a></li>
+            </ul>
+        </div>
     </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Adoptify — Proyecto universitario ITSPC</p>
+        </div>
 </footer>
 
 <script src="/js/main.js"></script>

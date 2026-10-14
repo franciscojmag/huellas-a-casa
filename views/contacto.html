@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto — Huellas a Casa</title>
+    <title>Contacto — Adoptify</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <div class="nav-container">
         <a href="/" class="nav-logo">
             <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+            <span class="logo-text"><span class="accent">Adopt</span>ify</span>
         </a>
         <ul class="nav-links">
             <li><a href="/adoptar">Adoptar</a></li>
@@ -22,22 +22,27 @@
             <li><a href="/organizaciones">Organizaciones</a></li>
         </ul>
         <div class="nav-auth" id="navAuth">
-            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/login" class="btn btn-ghost">Iniciar sesión</a>
             <a href="/registro" class="btn btn-primary">Registrarse</a>
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
     </div>
 </nav>
 
+<!-- PAGE HEADER -->
 <div class="page-header">
-    <h1>Contacto</h1>
-    <p>¿Tienes dudas o quieres saber más sobre Huellas a Casa?</p>
+    <span class="section-tag">📬 CONTACTO</span>
+    <h1>Acerca del proyecto</h1>
+    <p>Adoptify es un proyecto universitario desarrollado para mejorar la gestión de adopción y rescate canino en San Pedro de las Colonias.</p>
 </div>
 
 <main class="contact-section">
     <div class="contact-grid">
+
+        <!-- Info del equipo -->
         <div class="contact-info">
-            <h2>Información de contacto</h2>
+            <h2>Información del proyecto</h2>
+
             <div class="contact-item">
                 <span class="contact-icon">📍</span>
                 <div>
@@ -45,6 +50,7 @@
                     <p>San Pedro de las Colonias, Coahuila de Zaragoza, México</p>
                 </div>
             </div>
+
             <div class="contact-item">
                 <span class="contact-icon">🎓</span>
                 <div>
@@ -53,14 +59,16 @@
                     <p>Ingeniería en Sistemas Computacionales</p>
                 </div>
             </div>
+
             <div class="contact-item">
                 <span class="contact-icon">👨‍💻</span>
                 <div>
                     <strong>Desarrollado por</strong>
-                    <p>Francisco Javier Martínez García</p>
-                    <p>Jorge Humberto Esquivel Cuellar</p>
+                    <p>Francisco Javier Martínez García — 231000109</p>
+                    <p>Jorge Humberto Esquivel Cuellar — 231000116</p>
                 </div>
             </div>
+
             <div class="contact-item">
                 <span class="contact-icon">👨‍🏫</span>
                 <div>
@@ -68,29 +76,75 @@
                     <p>M.C. Rubén Hernández Rodríguez</p>
                 </div>
             </div>
+
+            <div class="contact-item">
+                <span class="contact-icon">📅</span>
+                <div>
+                    <strong>Materia</strong>
+                    <p>Taller de Investigación I — 2026</p>
+                </div>
+            </div>
         </div>
 
+        <!-- CTA organización -->
         <div class="contact-card">
-            <h2>¿Quieres unir tu organización?</h2>
-            <p>Si diriges o representas a una organización de rescate animal en San Pedro de las Colonias, puedes registrarte en la plataforma y comenzar a gestionar adopciones y reportes de forma gratuita.</p>
-            <a href="/registro" class="btn btn-primary">Registrar mi organización</a>
+            <h2>¿Tienes una organización de rescate?</h2>
+            <p>
+                Si diriges o representas a una organización de rescate animal
+                en San Pedro de las Colonias, puedes registrarte en Adoptify
+                de forma completamente gratuita y comenzar a gestionar adopciones
+                y reportes ciudadanos desde un solo lugar.
+            </p>
+            <a href="/registro" class="btn btn-primary">
+                Registrar mi organización →
+            </a>
+
+            <div style="margin-top:2rem;padding-top:1.5rem;
+                        border-top:1px solid rgba(255,255,255,.15)">
+                <p style="font-size:.875rem;opacity:.75;margin-bottom:1rem">
+                    ¿Quieres adoptar un perro?
+                </p>
+                <a href="/adoptar" class="btn btn-outline"
+                   style="border-color:rgba(255,255,255,.4);color:var(--white)">
+                    Ver perros disponibles →
+                </a>
+            </div>
         </div>
+
     </div>
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas a Casa</span>
-            <p>San Pedro de las Colonias, Coahuila</p>
+            <a href="/">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text"><span class="accent">Adopt</span>ify</span>
+            </a>
+            <p>Plataforma web para la gestión de adopción y rescate canino en San Pedro de las Colonias, Coahuila.</p>
         </div>
-        <div class="footer-links">
-            <a href="/adoptar">Adoptar</a>
-            <a href="/reportar">Reportar</a>
-            <a href="/contacto">Contacto</a>
+        <div class="footer-col">
+            <h4>Plataforma</h4>
+            <ul>
+                <li><a href="/adoptar">Adoptar un perro</a></li>
+                <li><a href="/reportar">Reportar un caso</a></li>
+                <li><a href="/organizaciones">Organizaciones</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
         </div>
-        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+        <div class="footer-col">
+            <h4>Cuenta</h4>
+            <ul>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse gratis</a></li>
+                <li><a href="/perfil">Mi perfil</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Adoptify — Proyecto universitario ITSPC</p>
+        <p class="footer-copy">Hecho con ❤️ en San Pedro de las Colonias</p>
     </div>
 </footer>
 

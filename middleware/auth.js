@@ -1,6 +1,6 @@
 /**
  * Middleware de autenticación y autorización
- * Huellas a Casa
+ * Adoptify
  */
 
 /** Verifica que el usuario haya iniciado sesión */

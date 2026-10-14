@@ -37,11 +37,11 @@ const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024
 
 // ---------------------------------------------------------------
 // POST /api/reportes
-// Form-data: { ubicacion, estado_animal, descripcion, foto? }
+// Form-data: { ubicacion, lat?, lng?, estado_animal, descripcion, foto? }
 // Requiere sesión activa (ciudadano o org)
 // ---------------------------------------------------------------
 router.post('/', requireLogin, upload.single('foto'), async (req, res) => {
-    const { ubicacion, estado_animal, descripcion } = req.body;
+    const { ubicacion, estado_animal, descripcion, lat, lng } = req.body;
 
     if (!ubicacion || !estado_animal) {
         return res.status(400).json({ error: 'Ubicación y estado del animal son obligatorios.' });
@@ -53,12 +53,18 @@ router.post('/', requireLogin, upload.single('foto'), async (req, res) => {
     }
 
     const ciudadano_id = req.session.usuario.id;
-    const foto_url = req.file ? `/uploads/${req.file.filename}` : null;
+    const foto_url     = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // Convierte coordenadas a número si vienen como string del FormData
+    const latNum = lat ? parseFloat(lat) : null;
+    const lngNum = lng ? parseFloat(lng) : null;
 
     try {
         const result = await run(
-            'INSERT INTO reportes (ciudadano_id, ubicacion, estado_animal, descripcion, foto_url) VALUES (?, ?, ?, ?, ?)',
-            [ciudadano_id, ubicacion.trim(), estado_animal, descripcion || null, foto_url]
+            `INSERT INTO reportes
+                (ciudadano_id, ubicacion, lat, lng, estado_animal, descripcion, foto_url)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [ciudadano_id, ubicacion.trim(), latNum, lngNum, estado_animal, descripcion || null, foto_url]
         );
 
         return res.status(201).json({ ok: true, id: result.lastID });

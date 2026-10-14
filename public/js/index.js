@@ -1,11 +1,11 @@
 /**
  * index.js — Página principal
- * Carga estadísticas y los primeros 3 perros destacados.
+ * Carga estadísticas, hero dinámico y los primeros 3 perros destacados.
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
     await cargarStats();
-    await cargarDestacados();
+    await cargarDestacados(); // también actualiza el hero
 });
 
 async function cargarStats() {
@@ -26,8 +26,12 @@ async function cargarDestacados() {
     try {
         const res    = await fetch('/api/perros?estado=disponible');
         const perros = await res.json();
-        const top3   = perros.slice(0, 3);
 
+        // ── Hero dinámico ──────────────────────────────────────────
+        actualizarHero(perros);
+
+        // ── Tarjetas destacadas (primeros 3) ───────────────────────
+        const top3 = perros.slice(0, 3);
         grid.innerHTML = '';
 
         if (top3.length === 0) {
@@ -39,6 +43,40 @@ async function cargarDestacados() {
     } catch (_) {
         grid.innerHTML = '<p class="empty-msg">No se pudo cargar la información.</p>';
     }
+}
+
+/**
+ * Actualiza la imagen y el badge del hero con el primer perro disponible.
+ * Si no hay ninguno disponible, oculta la sección de imagen.
+ */
+function actualizarHero(perros) {
+    const imgEl   = document.getElementById('heroPerroImg');
+    const badgeEl = document.getElementById('heroPerroBadge');
+    const cardEl  = imgEl?.closest('.hero-img-card');
+
+    if (!imgEl || !badgeEl) return;
+
+    const disponible = perros.find(p => p.estado === 'disponible');
+
+    if (!disponible) {
+        // No hay perros disponibles — oculta la tarjeta del hero
+        if (cardEl) cardEl.style.display = 'none';
+        return;
+    }
+
+    // Actualiza foto
+    imgEl.src = disponible.foto_url || '/img/dog-placeholder.svg';
+    imgEl.alt = `${disponible.nombre} — disponible para adopción`;
+    imgEl.onerror = function () { this.src = '/img/dog-placeholder.svg'; };
+
+    // Actualiza badge con nombre real y enlace al perro
+    badgeEl.textContent = `🟢 ${disponible.nombre} · Disponible para adopción`;
+    badgeEl.style.cursor = 'pointer';
+    badgeEl.onclick = () => { window.location.href = `/perro/${disponible.id}`; };
+
+    // Hace clic en la imagen también lleve al detalle
+    imgEl.style.cursor = 'pointer';
+    imgEl.onclick = () => { window.location.href = `/perro/${disponible.id}`; };
 }
 
 function tarjetaPerro(p) {

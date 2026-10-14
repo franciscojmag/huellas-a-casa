@@ -1,19 +1,30 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de organización — Huellas a Casa</title>
+    <title>Panel de organización — Adoptify</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body class="dashboard-body">
 
+<!-- TOPBAR MÓVIL -->
+<div class="dash-topbar">
+    <div class="dash-topbar-logo">
+        <span class="logo-icon">🐾</span>
+        <span><span class="accent">Adopt</span>ify</span>
+    </div>
+    <button class="dash-menu-toggle" id="dashMenuToggle" aria-label="Menú">☰</button>
+</div>
+<!-- Overlay para cerrar el menú -->
+<div class="sidebar-overlay"></div>
+
 <!-- SIDEBAR -->
 <aside class="sidebar">
     <div class="sidebar-logo">
         <span class="logo-icon">🐾</span>
-        <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+        <span class="logo-text"><span class="accent">Adopt</span>ify</span>
     </div>
     <nav class="sidebar-nav">
         <a href="/dashboard" class="sidebar-link active">
@@ -94,5 +105,6 @@
 
 <script src="/js/main.js"></script>
 <script src="/js/dashboard.js"></script>
+<script src="/js/dashboard-nav.js"></script>
 </body>
 </html>

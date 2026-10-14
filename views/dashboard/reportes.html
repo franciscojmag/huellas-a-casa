@@ -1,19 +1,58 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes ciudadanos — Huellas a Casa</title>
+    <title>Reportes ciudadanos — Adoptify</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/dashboard.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+    <style>
+        #mapaModal {
+            width: 100%;
+            height: 340px;
+            border-radius: var(--radius-sm);
+            z-index: 1;
+        }
+        .reporte-card-mapa {
+            margin-top: .6rem;
+        }
+        .btn-ver-mapa {
+            font-size: .75rem;
+            padding: .3rem .75rem;
+        }
+        .modal-mapa-info {
+            background: var(--gray-100);
+            border-radius: var(--radius-sm);
+            padding: .75rem 1rem;
+            margin-bottom: 1rem;
+            font-size: .88rem;
+        }
+        .modal-mapa-info strong { color: var(--teal); }
+    </style>
 </head>
 <body class="dashboard-body">
+
+<!-- TOPBAR MÓVIL -->
+<div class="dash-topbar">
+    <div class="dash-topbar-logo">
+        <span class="logo-icon">🐾</span>
+        <span><span class="accent">Adopt</span>ify</span>
+    </div>
+    <button class="dash-menu-toggle" id="dashMenuToggle" aria-label="Menú">☰</button>
+</div>
+<!-- Overlay para cerrar el menú -->
+<div class="sidebar-overlay"></div>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
     <div class="sidebar-logo">
         <span class="logo-icon">🐾</span>
-        <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+        <span class="logo-text"><span class="accent">Adopt</span>ify</span>
     </div>
     <nav class="sidebar-nav">
         <a href="/dashboard" class="sidebar-link">
@@ -53,7 +92,32 @@
     </div>
 </main>
 
+<!-- MODAL MAPA -->
+<div class="modal-overlay hidden" id="modalMapa">
+    <div class="modal modal-lg">
+        <button class="modal-close" id="modalMapaClose" aria-label="Cerrar">&times;</button>
+        <h2>📍 Ubicación del reporte</h2>
+
+        <!-- Info del reporte -->
+        <div class="modal-mapa-info" id="modalMapaInfo"></div>
+
+        <!-- Mapa -->
+        <div id="mapaModal"></div>
+
+        <!-- Link a Google Maps -->
+        <a id="linkGoogleMaps" href="#" target="_blank" rel="noopener"
+           style="display:none;margin-top:.75rem;font-size:.85rem;
+                  color:var(--teal);font-weight:600;text-decoration:underline">
+            🗺 Abrir en Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLEg=" crossorigin=""></script>
 <script src="/js/main.js"></script>
 <script src="/js/dash-reportes.js"></script>
+<script src="/js/dashboard-nav.js"></script>
 </body>
 </html>

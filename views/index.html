@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huellas a Casa — Adopción y rescate canino</title>
+    <title>Adoptify — Adopción y rescate canino en San Pedro de las Colonias</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <div class="nav-container">
         <a href="/" class="nav-logo">
             <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas <span class="accent">a Casa</span></span>
+            <span class="logo-text"><span class="accent">Adopt</span>ify</span>
         </a>
         <ul class="nav-links">
             <li><a href="/adoptar">Adoptar</a></li>
@@ -22,30 +22,38 @@
             <li><a href="/organizaciones">Organizaciones</a></li>
         </ul>
         <div class="nav-auth" id="navAuth">
-            <a href="/login" class="btn btn-outline">Iniciar sesión</a>
+            <a href="/login" class="btn btn-ghost">Iniciar sesión</a>
             <a href="/registro" class="btn btn-primary">Registrarse</a>
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
     </div>
 </nav>
 
-<!-- HERO -->
+<!-- ============================================================
+     HERO
+     ============================================================ -->
 <section class="hero">
     <div class="hero-content">
-        <span class="hero-badge">📍 Plataforma activa en San Pedro de las Colonias</span>
+        <span class="hero-eyebrow">
+            📍 Plataforma activa en San Pedro de las Colonias
+        </span>
         <h1 class="hero-title">
             Dale a un perrito<br>
             un <span class="accent">hogar de verdad</span>
         </h1>
         <p class="hero-desc">
-            Conectamos a organizaciones de rescate con ciudadanos responsables
+            Conectamos organizaciones de rescate con ciudadanos responsables
             para agilizar adopciones y atender reportes de perros en situación de calle.
         </p>
         <div class="hero-actions">
-            <a href="/adoptar" class="btn btn-primary btn-lg">Ver perros disponibles</a>
-            <a href="/reportar" class="btn btn-secondary btn-lg">Reportar un caso</a>
+            <a href="/adoptar" class="btn btn-primary btn-xl">
+                Ver perros disponibles
+            </a>
+            <a href="/reportar" class="btn btn-ghost btn-xl">
+                Reportar un caso
+            </a>
         </div>
-        <div class="hero-stats" id="heroStats">
+        <div class="hero-stats">
             <div class="stat">
                 <span class="stat-num" id="statRescatados">—</span>
                 <span class="stat-label">Perros rescatados</span>
@@ -60,56 +68,146 @@
             </div>
         </div>
     </div>
+
     <div class="hero-image">
         <div class="hero-img-card">
-            <img src="/img/hero-dog.jpg" alt="Cachorro disponible para adopción"
-                 onerror="this.src='/img/dog-placeholder.svg'">
-            <span class="hero-img-badge">🟢 Luna · Disponible para adopción</span>
+            <img id="heroPerroImg" src="/img/dog-placeholder.svg"
+                 alt="Perro disponible para adopción">
+            <span class="hero-img-badge" id="heroPerroBadge">🟢 Cargando...</span>
         </div>
     </div>
 </section>
 
-<!-- PERROS DESTACADOS -->
+<!-- ============================================================
+     CÓMO FUNCIONA
+     ============================================================ -->
+<section class="how-section">
+    <div style="max-width:1200px;margin:0 auto;text-align:center">
+        <span class="section-tag">✨ ASÍ DE FÁCIL</span>
+        <h2 style="font-size:clamp(1.6rem,3vw,2.1rem);font-weight:900;
+                   letter-spacing:-.02em;color:var(--gray-900);
+                   margin:.6rem 0 .5rem">
+            ¿Cómo funciona Adoptify?
+        </h2>
+        <p style="color:var(--gray-500);max-width:520px;margin:0 auto">
+            En tres pasos puedes encontrar a tu compañero ideal
+            o ayudar a un perro en situación de calle.
+        </p>
+    </div>
+
+    <div class="how-grid">
+        <div class="how-card">
+            <span class="how-icon">🔍</span>
+            <div class="how-num">1</div>
+            <h3>Explora el catálogo</h3>
+            <p>
+                Navega entre todos los perros disponibles para adopción.
+                Filtra por edad, sexo y disponibilidad para encontrar
+                al compañero ideal.
+            </p>
+        </div>
+        <div class="how-card">
+            <span class="how-icon">📋</span>
+            <div class="how-num">2</div>
+            <h3>Envía tu solicitud</h3>
+            <p>
+                Regístrate gratis y envía tu solicitud de adopción.
+                Cuéntale a la organización por qué serías un
+                excelente adoptante.
+            </p>
+        </div>
+        <div class="how-card">
+            <span class="how-icon">🏠</span>
+            <div class="how-num">3</div>
+            <h3>Dale un hogar</h3>
+            <p>
+                La organización revisará tu solicitud y se pondrá
+                en contacto contigo para coordinar la entrega.
+                ¡Bienvenido a tu nueva familia!
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PERROS DESTACADOS
+     ============================================================ -->
 <section class="section">
     <div class="section-header">
         <span class="section-tag">🐾 ADOPCIÓN</span>
         <h2>Mascotas esperando un hogar</h2>
-        <p>Cada perrito aquí tiene una historia. Encuentra a tu compañero ideal.</p>
+        <p>Cada perrito aquí tiene una historia. Encuentra a tu compañero ideal y dale la vida que merece.</p>
     </div>
+
     <div class="card-grid" id="perrosDestacados">
         <div class="skeleton-card"></div>
         <div class="skeleton-card"></div>
         <div class="skeleton-card"></div>
     </div>
+
     <div class="section-footer">
-        <a href="/adoptar" class="btn btn-outline">Ver todos los perros</a>
+        <a href="/adoptar" class="btn btn-outline btn-lg">Ver todos los perros →</a>
     </div>
 </section>
 
-<!-- CTA REPORTE -->
+<!-- ============================================================
+     BANNER REPORTAR
+     ============================================================ -->
 <section class="cta-section">
     <div class="cta-content">
         <h2>¿Viste un perro en situación de calle?</h2>
-        <p>Con tu reporte, las organizaciones afiliadas pueden actuar rápidamente y brindarle atención.</p>
-        <a href="/reportar" class="btn btn-primary btn-lg">Reportar un caso ahora</a>
+        <p>
+            Con tu reporte y ubicación exacta, las organizaciones afiliadas
+            pueden actuar rápidamente y brindarle la atención que necesita.
+        </p>
+        <a href="/reportar" class="btn btn-primary btn-xl">
+            📍 Reportar un caso ahora
+        </a>
     </div>
 </section>
 
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <span class="logo-icon">🐾</span>
-            <span class="logo-text">Huellas a Casa</span>
-            <p>San Pedro de las Colonias, Coahuila</p>
+            <a href="/">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text"><span class="accent">Adopt</span>ify</span>
+            </a>
+            <p>
+                Plataforma web para la gestión de adopción y rescate
+                canino en San Pedro de las Colonias, Coahuila.
+            </p>
         </div>
-        <div class="footer-links">
-            <a href="/adoptar">Adoptar</a>
-            <a href="/reportar">Reportar</a>
-            <a href="/contacto">Contacto</a>
-            <a href="/registro">Registrarse</a>
+
+        <div class="footer-col">
+            <h4>Plataforma</h4>
+            <ul>
+                <li><a href="/adoptar">Adoptar un perro</a></li>
+                <li><a href="/reportar">Reportar un caso</a></li>
+                <li><a href="/organizaciones">Organizaciones</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
         </div>
-        <p class="footer-copy">© 2026 Huellas a Casa — Proyecto universitario ITSPC</p>
+
+        <div class="footer-col">
+            <h4>Cuenta</h4>
+            <ul>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse gratis</a></li>
+                <li><a href="/registro">Registrar organización</a></li>
+                <li><a href="/perfil">Mi perfil</a></li>
+            </ul>
+        </div>
     </div>
+
+    <div class="footer-bottom">
+        <p class="footer-copy">
+            © 2026 Adoptify — Proyecto universitario ITSPC · Ingeniería en Sistemas Computacionales
+        </p>
+        </div>
 </footer>
 
 <script src="/js/main.js"></script>

@@ -16,8 +16,8 @@
  *   PUT    /api/admin/reportes/:id        — cambiar estado del reporte
  */
 const express = require('express');
-const multer  = require('multer');
-const path    = require('path');
+const multer = require('multer');
+const path = require('path');
 const { all, get, run } = require('../database/db');
 const { requireOrg } = require('../middleware/auth');
 
@@ -96,7 +96,8 @@ router.post('/perros', upload.single('foto'), async (req, res) => {
 });
 
 // PUT /api/admin/perros/:id
-router.put('/perros/:id', upload.single('foto'), async (req, res) => {
+// También acepta POST con campo _method=PUT (multer v1 no parsea body en PUT)
+const editarPerroHandler = async (req, res) => {
     const { nombre, edad_meses, sexo, raza, descripcion, estado } = req.body;
 
     try {
@@ -114,10 +115,10 @@ router.put('/perros/:id', upload.single('foto'), async (req, res) => {
              WHERE id = ? AND org_id = ?`,
             [
                 nombre || perro.nombre,
-                parseInt(edad_meses) ?? perro.edad_meses,
+                parseInt(edad_meses) >= 0 ? parseInt(edad_meses) : perro.edad_meses,
                 sexo || perro.sexo,
                 raza || perro.raza,
-                descripcion ?? perro.descripcion,
+                descripcion !== undefined ? descripcion : perro.descripcion,
                 foto_url,
                 estado || perro.estado,
                 req.params.id,
@@ -126,10 +127,13 @@ router.put('/perros/:id', upload.single('foto'), async (req, res) => {
         );
         return res.json({ ok: true });
     } catch (err) {
-        console.error(err);
+        console.error('Error al actualizar perro:', err);
         return res.status(500).json({ error: 'Error al actualizar el perro.' });
     }
-});
+};
+
+router.put('/perros/:id', upload.single('foto'), editarPerroHandler);
+router.post('/perros/:id', upload.single('foto'), editarPerroHandler);
 
 // DELETE /api/admin/perros/:id
 router.delete('/perros/:id', async (req, res) => {
@@ -180,11 +184,17 @@ router.put('/solicitudes/:id', async (req, res) => {
     }
 
     try {
-        // Verifica que la solicitud sea de un perro de esta org
+        // Obtiene la solicitud con datos del perro y del ciudadano
         const solicitud = await get(`
-            SELECT sa.*, p.id AS pid
+            SELECT sa.*,
+                   p.id     AS pid,
+                   p.nombre AS perro_nombre,
+                   o.nombre AS org_nombre,
+                   u.email  AS ciudadano_email
             FROM solicitudes_adopcion sa
-            JOIN perros p ON sa.perro_id = p.id
+            JOIN perros        p ON sa.perro_id    = p.id
+            JOIN organizaciones o ON p.org_id      = o.id
+            JOIN usuarios       u ON sa.ciudadano_id = u.id
             WHERE sa.id = ? AND p.org_id = ?
         `, [req.params.id, req.session.usuario.org_id]);
 
@@ -192,16 +202,43 @@ router.put('/solicitudes/:id', async (req, res) => {
 
         await run('UPDATE solicitudes_adopcion SET estado = ? WHERE id = ?', [estado, req.params.id]);
 
-        // Si se aprueba, marca el perro como adoptado y rechaza las demás solicitudes
+        // ── Lógica de estado del perro ───────────────────────────────
         if (estado === 'aprobada') {
             await run("UPDATE perros SET estado = 'adoptado' WHERE id = ?", [solicitud.perro_id]);
-            await run(
-                "UPDATE solicitudes_adopcion SET estado = 'rechazada' WHERE perro_id = ? AND id != ?",
+
+            // Rechaza las demás solicitudes pendientes del mismo perro
+            const otrasSolicitudes = await all(
+                "SELECT id, ciudadano_id FROM solicitudes_adopcion WHERE perro_id = ? AND id != ? AND estado = 'pendiente'",
                 [solicitud.perro_id, req.params.id]
+            );
+
+            for (const otra of otrasSolicitudes) {
+                await run("UPDATE solicitudes_adopcion SET estado = 'rechazada' WHERE id = ?", [otra.id]);
+
+                // Notifica a los demás ciudadanos que su solicitud fue rechazada
+                await run(
+                    `INSERT INTO notificaciones (usuario_id, tipo, titulo, mensaje)
+                     VALUES (?, 'solicitud_rechazada', ?, ?)`,
+                    [
+                        otra.ciudadano_id,
+                        `Solicitud no aprobada — ${solicitud.perro_nombre}`,
+                        `Lamentamos informarte que tu solicitud de adopción para ${solicitud.perro_nombre} no fue aprobada porque otro adoptante fue seleccionado. Te invitamos a explorar otros perritos disponibles.`
+                    ]
+                );
+            }
+
+            // Notifica al ciudadano aprobado
+            await run(
+                `INSERT INTO notificaciones (usuario_id, tipo, titulo, mensaje)
+                 VALUES (?, 'solicitud_aprobada', ?, ?)`,
+                [
+                    solicitud.ciudadano_id,
+                    `¡Tu solicitud fue aprobada! 🎉 — ${solicitud.perro_nombre}`,
+                    `¡Felicidades! La organización ${solicitud.org_nombre} aprobó tu solicitud de adopción para ${solicitud.perro_nombre}. Pronto se pondrán en contacto contigo al correo ${solicitud.ciudadano_email} para coordinar la entrega. ¡Bienvenido a tu nueva familia!`
+                ]
             );
         }
 
-        // Si se rechaza, si no hay más pendientes vuelve el perro a disponible
         if (estado === 'rechazada') {
             const pendientes = await get(
                 "SELECT COUNT(*) AS total FROM solicitudes_adopcion WHERE perro_id = ? AND estado = 'pendiente'",
@@ -210,6 +247,17 @@ router.put('/solicitudes/:id', async (req, res) => {
             if (pendientes.total === 0) {
                 await run("UPDATE perros SET estado = 'disponible' WHERE id = ?", [solicitud.perro_id]);
             }
+
+            // Notifica al ciudadano rechazado
+            await run(
+                `INSERT INTO notificaciones (usuario_id, tipo, titulo, mensaje)
+                 VALUES (?, 'solicitud_rechazada', ?, ?)`,
+                [
+                    solicitud.ciudadano_id,
+                    `Solicitud no aprobada — ${solicitud.perro_nombre}`,
+                    `Lamentamos informarte que tu solicitud de adopción para ${solicitud.perro_nombre} no fue aprobada en esta ocasión. Te invitamos a explorar otros perritos disponibles en Adoptify.`
+                ]
+            );
         }
 
         return res.json({ ok: true });

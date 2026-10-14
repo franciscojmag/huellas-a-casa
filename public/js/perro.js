@@ -26,7 +26,7 @@ async function cargarPerro(id) {
         if (!res.ok) { mostrarError('Perro no encontrado.'); return; }
 
         perroActual = await res.json();
-        document.title = `${perroActual.nombre} — Huellas a Casa`;
+        document.title = `${perroActual.nombre} — Adoptify`;
         renderDetalle(perroActual);
     } catch (_) {
         mostrarError('Error al cargar la información.');

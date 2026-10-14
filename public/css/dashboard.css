@@ -1,5 +1,5 @@
 /* ============================================================
-   Huellas a Casa — Estilos del Dashboard
+   Adoptify — Estilos del Dashboard
    ============================================================ */
 
 .dashboard-body {
@@ -20,6 +20,7 @@
     top: 0;
     bottom: 0;
     z-index: 50;
+    transition: transform var(--transition);
 }
 
 .sidebar-logo {
@@ -69,6 +70,52 @@
 
 .btn-logout { color: #fca5a5; }
 .btn-logout:hover { background: rgba(239,68,68,.15); color: #f87171; }
+
+/* ---- Topbar móvil (reemplaza sidebar en pantallas pequeñas) ---- */
+.dash-topbar {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: .85rem 1rem;
+    background: var(--gray-900);
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    gap: 1rem;
+}
+.dash-topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--white);
+}
+.dash-topbar-logo .accent { color: var(--orange); }
+
+.dash-menu-toggle {
+    background: rgba(255,255,255,.1);
+    border: none;
+    color: var(--white);
+    width: 36px; height: 36px;
+    border-radius: var(--radius-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Overlay oscuro cuando el menú móvil está abierto */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 49;
+}
+.sidebar-overlay.active { display: block; }
 
 /* ---- Main content ---- */
 .dashboard-main {
@@ -138,11 +185,16 @@
 .table-container {
     background: var(--white);
     border-radius: var(--radius);
-    overflow: hidden;
+    overflow: hidden;          /* quitamos overflow:hidden del contenedor */
     box-shadow: var(--shadow);
+}
+.table-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .dash-table {
     width: 100%;
+    min-width: 600px;          /* tabla no colapsa por debajo de 600px */
     border-collapse: collapse;
     font-size: .88rem;
 }
@@ -156,6 +208,7 @@
     text-transform: uppercase;
     letter-spacing: .04em;
     border-bottom: 1px solid var(--gray-200);
+    white-space: nowrap;
 }
 .dash-table td {
     padding: .85rem 1rem;
@@ -177,14 +230,18 @@
     object-fit: cover;
     border-radius: var(--radius-sm);
     background: var(--gray-100);
+    flex-shrink: 0;
 }
 
 .estado-badge {
+    display: inline-flex;
+    align-items: center;
     padding: .25rem .65rem;
     border-radius: 999px;
     font-size: .72rem;
     font-weight: 700;
     text-transform: capitalize;
+    white-space: nowrap;
 }
 .estado-disponible  { background: #dcfce7; color: #15803d; }
 .estado-en_proceso  { background: #fff7ed; color: var(--orange); }
@@ -195,7 +252,7 @@
 .estado-atendido    { background: #dbeafe; color: #1d4ed8; }
 .estado-cerrado     { background: var(--gray-100); color: var(--gray-500); }
 
-.table-actions { display: flex; gap: .4rem; }
+.table-actions { display: flex; gap: .4rem; flex-wrap: wrap; }
 
 /* ---- Solicitudes & reportes (cards) ---- */
 .solicitudes-list,
@@ -215,6 +272,7 @@
     grid-template-columns: auto 1fr auto;
     gap: 1rem;
     align-items: start;
+    border: 1px solid var(--gray-100);
 }
 
 .solicitud-foto,
@@ -230,7 +288,7 @@
 .solicitud-info h3,
 .reporte-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: .25rem; }
 .solicitud-info p,
-.reporte-info p { font-size: .85rem; color: var(--gray-500); }
+.reporte-info p { font-size: .85rem; color: var(--gray-500); margin-top: .2rem; }
 
 .solicitud-actions,
 .reporte-actions {
@@ -248,15 +306,82 @@
     margin-bottom: 1.5rem;
 }
 
-/* ---- Responsive dashboard ---- */
+/* ============================================================
+   RESPONSIVE DASHBOARD
+   ============================================================ */
+
+/* Tablet (640px – 900px): sidebar más estrecho */
 @media (max-width: 900px) {
     .sidebar { width: 200px; }
-    .dashboard-main { margin-left: 200px; }
+    .dashboard-main { margin-left: 200px; padding: 1.5rem; }
+    .dash-stats { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Móvil (≤ 640px): sidebar se convierte en drawer lateral */
 @media (max-width: 640px) {
-    .sidebar { display: none; }
-    .dashboard-main { margin-left: 0; padding: 1rem; }
+    /* Topbar visible */
+    .dash-topbar { display: flex; }
+
+    /* Sidebar como drawer fuera de pantalla */
+    .sidebar {
+        width: 260px;
+        transform: translateX(-100%);
+        top: 0;
+        z-index: 60;
+    }
+    .sidebar.open { transform: translateX(0); }
+
+    /* Contenido sin margen izquierdo */
+    .dashboard-main {
+        margin-left: 0;
+        padding: 1rem;
+    }
+
+    /* Stats en 2 columnas pequeñas */
+    .dash-stats { grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+    .dash-stat-card { padding: 1rem; gap: .75rem; }
+    .dash-stat-num { font-size: 1.4rem; }
+    .dash-stat-icon { font-size: 1.5rem; }
+
+    /* Quick links en 1 columna */
+    .dash-quick-links { grid-template-columns: 1fr; }
+
+    /* Cards de solicitudes y reportes: colapsan a 1 columna */
     .solicitud-card,
-    .reporte-card { grid-template-columns: 1fr; }
+    .reporte-card {
+        grid-template-columns: 1fr;
+        gap: .75rem;
+    }
+    .solicitud-foto,
+    .reporte-foto { width: 60px; height: 60px; }
+    .solicitud-actions,
+    .reporte-actions {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    /* Filtros del dashboard: scroll horizontal */
+    .filters-bar-dash {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: .25rem;
+    }
+    .filters-bar-dash::-webkit-scrollbar { display: none; }
+    .filters-bar-dash .filter-chip { flex-shrink: 0; }
+
+    /* Encabezado del dashboard */
+    .dash-header { margin-bottom: 1.25rem; }
+    .dash-header h1 { font-size: 1.25rem; }
+    .dash-header .btn { font-size: .8rem; padding: .45rem .85rem; }
+}
+
+/* Móvil muy pequeño (≤ 420px) */
+@media (max-width: 420px) {
+    .dash-stats { grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .dash-stat-card { padding: .85rem .75rem; }
+    .dash-stat-num { font-size: 1.25rem; }
+    .dash-stat-label { font-size: .72rem; }
 }
